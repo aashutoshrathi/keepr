@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_keeper/screens/note_details.dart';
+import 'package:keepr/screens/note_details.dart';
 
 class NoteList extends StatefulWidget {
   @override

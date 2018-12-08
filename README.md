@@ -1,6 +1,6 @@
-# flutter_keeper
+# keepr
 
-A new Flutter project.
+ Yet Another Note Keeper
 
 ## Getting Started
 
