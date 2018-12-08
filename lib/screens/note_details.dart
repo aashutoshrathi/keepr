@@ -30,7 +30,7 @@ class NoteDetailState extends State<NoteDetail> {
 
       return 
       WillPopScope (
-        
+        // this thing WillPopScope Checks what to do if user press back button from navigation bar.
         onWillPop: () {
           goBack();
         },

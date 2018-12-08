@@ -1,15 +1,14 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_keeper/screens/note_details.dart';
 import 'package:flutter_keeper/screens/note_list.dart';
 
 void main() {
   runApp(
-    MyApp()
+    NotesApp()
   );
 }
 
-class MyApp extends StatelessWidget {
+class NotesApp extends StatelessWidget {
   @override
     Widget build(BuildContext context) {
       return MaterialApp(
