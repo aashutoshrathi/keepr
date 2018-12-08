@@ -24,6 +24,7 @@ class NoteListState extends State<NoteList> {
           },
           tooltip: 'Add Note',
           child: Icon(Icons.add),
+          backgroundColor: Colors.black,
         ),
       );
     }
