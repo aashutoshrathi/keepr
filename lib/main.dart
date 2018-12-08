@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.black
         ),
-        home: NoteDetail()
+        home: NoteList()
       );
     }
 }

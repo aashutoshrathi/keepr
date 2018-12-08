@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 class NoteDetail extends StatefulWidget {
 
+  String appBarTitle;
+
+  NoteDetail(this.appBarTitle);
+
   @override
     State<StatefulWidget> createState() {
-      return NoteDetailState();
+      return NoteDetailState(this.appBarTitle);
     }
 }
 
@@ -12,17 +16,35 @@ class NoteDetailState extends State<NoteDetail> {
   
   static var _priorities = ['High', 'Low'];
 
+  String appBarTitle;
+
   TextEditingController titleContr = TextEditingController();
   TextEditingController descContr = TextEditingController();
+
+  NoteDetailState(this.appBarTitle);
 
   @override
     Widget build(BuildContext context) {
 
       TextStyle textStyle = Theme.of(context).textTheme.title;
 
-      return Scaffold (
+      return 
+      WillPopScope (
+        
+        onWillPop: () {
+          goBack();
+        },
+
+        child: Scaffold (
         appBar: AppBar(
-          title: Text('Edit Note'),
+          title: Text(appBarTitle),
+          // Ab jo me likhuga wo automatic hota hai, but me to hu hi neta.
+          leading: IconButton(icon: Icon(
+            Icons.arrow_back),
+            onPressed: () {
+              goBack();
+            },
+          ),
         ),
 
         body: Padding(
@@ -129,6 +151,11 @@ class NoteDetailState extends State<NoteDetail> {
             ],
           ),
         ),
-      );
+      ));
     }
+
+    void goBack() {
+      Navigator.pop(context);
+    }
+
 }
