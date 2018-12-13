@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:keepr/models/note.dart';
 
 class NoteDetail extends StatefulWidget {
 
-  String appBarTitle;
+  final String appBarTitle;
+  final Note note;
 
-  NoteDetail(this.appBarTitle);
+  NoteDetail(this.note, this.appBarTitle);
 
   @override
     State<StatefulWidget> createState() {
-      return NoteDetailState(this.appBarTitle);
+      return NoteDetailState(this.note, this.appBarTitle);
     }
 }
 
@@ -17,19 +19,22 @@ class NoteDetailState extends State<NoteDetail> {
   static var _priorities = ['High', 'Low'];
 
   String appBarTitle;
+  Note note;
 
   TextEditingController titleContr = TextEditingController();
   TextEditingController descContr = TextEditingController();
 
-  NoteDetailState(this.appBarTitle);
+  NoteDetailState(this.note, this.appBarTitle);
 
   @override
     Widget build(BuildContext context) {
 
       TextStyle textStyle = Theme.of(context).textTheme.title;
 
-      return 
-      WillPopScope (
+      titleContr.text = note.title;
+      descContr.text = note.description;
+
+      return WillPopScope (
         // this thing WillPopScope Checks what to do if user press back button from navigation bar.
         onWillPop: () {
           goBack();
@@ -61,11 +66,12 @@ class NoteDetailState extends State<NoteDetail> {
                   }).toList(),
 
                   style: textStyle,
-                  value: 'Low',
+                  value: priorityAsString(note.priority),
                   
                   onChanged: (valueSelected) {
                     setState(() {
                       debugPrint('User selected $valueSelected');
+                      updatePriorityAsInt(valueSelected);
                     });
                   }
                 ),
@@ -78,6 +84,7 @@ class NoteDetailState extends State<NoteDetail> {
                   style: textStyle,
                   onChanged: (value) {
                     debugPrint('Something in Text Field');
+                    note.title = titleContr.text;
                   },
                   decoration: InputDecoration(
                     labelText: 'Title',
@@ -97,6 +104,7 @@ class NoteDetailState extends State<NoteDetail> {
                   style: textStyle,
                   onChanged: (value) {
                     debugPrint('Something in Description Field');
+                    note.description = descContr.text;
                   },
                   decoration: InputDecoration(
                     labelText: 'Description',
@@ -156,6 +164,19 @@ class NoteDetailState extends State<NoteDetail> {
 
     void goBack() {
       Navigator.pop(context);
+    }
+
+    void updatePriorityAsInt(String value) {
+      if (value == 'High') {
+        note.priority = 1;
+      }
+      else {
+        note.priority = 2;
+      }
+    }
+
+    String priorityAsString(int value) {
+      return _priorities[value-1];
     }
 
 }

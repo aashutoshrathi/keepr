@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keepr/models/note.dart';
 import 'package:keepr/screens/note_details.dart';
 import 'package:keepr/utils/db_helper.dart';
+import 'package:sqflite/sqflite.dart';
 
 class NoteList extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class NoteListState extends State<NoteList> {
     Widget build(BuildContext context) {
       if (noteList == null) {
         noteList = List<Note>();
+        updateList();
       }
 
       return Scaffold(
@@ -29,7 +31,7 @@ class NoteListState extends State<NoteList> {
 
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            navigateToDetail('Add Note');
+            navigateToDetail(Note('', '', 2), 'Add Note');
           },
           tooltip: 'Add Note',
           child: Icon(Icons.add),
@@ -55,14 +57,14 @@ class NoteListState extends State<NoteList> {
               ),
               title: Text(this.noteList[position].title, style: titleStyle),
               subtitle: Text(this.noteList[position].description),
-              trailing: GestureDetector (
+              trailing: GestureDetector ( // Gesture Detector bhai baap hai.
                 child: Icon(Icons.delete_sweep, color: Colors.red),
                 onTap: () {
                   _delete(context, noteList[position]);
                 },
               ),
               onTap: () {
-                debugPrint("Edit Check");
+                navigateToDetail(this.noteList[position], "Edit Note");
               },
             ),
           );
@@ -74,6 +76,7 @@ class NoteListState extends State<NoteList> {
       int res = await dbHelper.deleteNote(note);
       if (res != 0) {
         _showSnackBar(context, 'Note Deleted!');
+        updateList();
       }
     }
 
@@ -89,9 +92,22 @@ class NoteListState extends State<NoteList> {
       return Colors.yellow;
     }
 
-    void navigateToDetail(String title) {
+    void navigateToDetail(Note note, String title) {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return NoteDetail(title);
+        return NoteDetail(note, title);
       }));
+    }
+
+    void updateList() {
+      final Future<Database> dbFuture = dbHelper.initDB();
+      dbFuture.then((database) {
+        Future<List<Note>> noteListUpdates = dbHelper.getNoteList();
+        noteListUpdates.then((noteList) {
+          setState(() {
+            this.noteList = noteList;
+            this.count = noteList.length;
+          });
+        });
+      });
     }
 }
