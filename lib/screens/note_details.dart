@@ -17,6 +17,7 @@ class NoteDetail extends StatefulWidget {
 }
 
 class NoteDetailState extends State<NoteDetail> {
+  var _formKey = GlobalKey<FormState>();
   DatabaseHelper dbHelper = DatabaseHelper();
   static var _priorities = ['High', 'Low'];
 
@@ -54,7 +55,9 @@ class NoteDetailState extends State<NoteDetail> {
           ),
         ),
 
-        body: Padding(
+        body: Form(
+          key: _formKey,
+          child: Padding(
           padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
           child: ListView(
             children: <Widget>[
@@ -81,12 +84,13 @@ class NoteDetailState extends State<NoteDetail> {
 
               Padding (
                 padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: TextField(
+                child: TextFormField(
                   controller: titleContr,
                   style: textStyle,
-                  onChanged: (value) {
-                    debugPrint('Something in Text Field');
-                    note.title = titleContr.text;
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter a title';
+                    }
                   },
                   decoration: InputDecoration(
                     labelText: 'Title',
@@ -137,8 +141,11 @@ class NoteDetailState extends State<NoteDetail> {
                         ),
                         onPressed: () {
                           setState(() {
-                            debugPrint("Save button clicked");
-                            _save();
+                            if (_formKey.currentState.validate()) {
+                              note.title = titleContr.text;
+                              note.description = descContr.text;
+                              _save();
+                            }
                           });
                         },
                       ),
@@ -172,7 +179,7 @@ class NoteDetailState extends State<NoteDetail> {
               )
             ],
           ),
-        ),
+        )),
       ));
     }
 
