@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:keepr/models/note.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,7 +11,7 @@ class DatabaseHelper {
   String noteTable = 'note_table';
   String colID = 'id';
   String colTitle = 'title';
-  String colDescription = 'description';
+  String colDesc = 'description';
   String colPriority = 'priority';
   String colDate = 'date';
 
@@ -40,7 +41,43 @@ class DatabaseHelper {
   }
 
   void _createDB(Database db, int newVersion) async {
-    await db.execute('CREATE TABLE');
+    await db.execute('CREATE TABLE $noteTable($colID INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT,'
+        '$colDesc TEXT, $colPriority INTEGER, $colDate TEXT)');
+  }
+
+  // Ab likhege queries and CRUD
+  Future<List<Map<String, dynamic>>> getNoteMapList() async {
+    Database db = await this.database;
+    var res = db.query(noteTable, orderBy: '$colPriority ASC');
+    return res;
+  }
+
+  // Add note
+  Future<int> addNote(Note note) async {
+    Database db = await this.database;
+    var res = db.insert(noteTable, note.toMap());
+    return res;
+  }
+
+  // Update Note
+  Future<int> updateNote(Note note) async {
+    Database db = await this.database;
+    var res = db.update(noteTable, note.toMap(), where: '$colID = ?', whereArgs: [note.id]);
+    return res;
+  }
+
+  // Delete Note
+  Future<int> deleteNote(Note note) async {
+    Database db = await this.database;
+    var res = db.delete(noteTable, where: '$colID = ?', whereArgs: [note.id]);
+    return res;
+  }
+
+  // Get Count
+  Future<int> getCount() async {
+    Database db = await this.database;
+    List<Map<String, dynamic>> allNotes = await db.query(noteTable);
+    return Sqflite.firstIntValue(allNotes);
   }
 
 }
