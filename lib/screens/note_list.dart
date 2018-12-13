@@ -55,7 +55,10 @@ class NoteListState extends State<NoteList> {
                 backgroundColor: getPriorityRang(this.noteList[position].priority),
                 child: Icon(Icons.access_alarm),
               ),
-              title: Text(this.noteList[position].title, style: titleStyle),
+              title: Text(
+                this.noteList[position].title,
+                style: titleStyle
+              ),
               subtitle: Text(this.noteList[position].description),
               trailing: GestureDetector ( // Gesture Detector bhai baap hai.
                 child: Icon(Icons.delete_sweep, color: Colors.red),

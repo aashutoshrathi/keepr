@@ -123,9 +123,13 @@ class NoteDetailState extends State<NoteDetail> {
                 child: Row (
                   children: <Widget>[
                     Expanded(
-                      child: RaisedButton(
+                      child: OutlineButton(
                         color: Theme.of(context).primaryColorDark,
-                        textColor: Theme.of(context).primaryColorLight,
+                        textColor: Colors.blue,
+                        borderSide: BorderSide(color: Colors.blue),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(20.0)
+                        ),
                         child: Text (
                           'Save',
                           textScaleFactor: 1.5,
@@ -142,9 +146,13 @@ class NoteDetailState extends State<NoteDetail> {
                     Container(width: 5.0,),
 
                     Expanded(
-                      child: RaisedButton(
+                      child: OutlineButton(
                         color: Theme.of(context).primaryColorDark,
-                        textColor: Theme.of(context).primaryColorLight,
+                        textColor: Colors.blue,
+                        borderSide: BorderSide(color: Colors.blue),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(20.0)
+                        ),
                         child: Text (
                           'Delete',
                           textScaleFactor: 1.5,
