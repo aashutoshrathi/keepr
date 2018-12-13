@@ -89,12 +89,10 @@ class NoteListState extends State<NoteList> {
     }
 
     Color getPriorityRang(int priority) {
-      switch(priority) {
-        case 1:
-          return Colors.red;
-        case 2:
-          return Colors.yellow;
+      if (priority == 1) {
+        return Colors.red;
       }
+      return Colors.yellow;
     }
 
     void navigateToDetail(Note note, String title) async {
