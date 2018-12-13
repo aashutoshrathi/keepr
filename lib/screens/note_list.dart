@@ -48,12 +48,12 @@ class NoteListState extends State<NoteList> {
         itemCount: count,
         itemBuilder: (BuildContext context, int position) {
           return Card(
-            color: Colors.black,
+            color: Colors.white,
             elevation: 2.0,
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: getPriorityRang(this.noteList[position].priority),
-                child: Icon(Icons.alarm_on),
+                child: Icon(Icons.access_alarm),
               ),
               title: Text(this.noteList[position].title, style: titleStyle),
               subtitle: Text(this.noteList[position].description),
@@ -75,7 +75,7 @@ class NoteListState extends State<NoteList> {
     void _delete(BuildContext context, Note note) async {
       int res = await dbHelper.deleteNote(note);
       if (res != 0) {
-        _showSnackBar(context, 'Note Deleted!');
+        _showSnackBar(context, 'Note Deleted Successfully!');
         updateList();
       }
     }
@@ -92,10 +92,14 @@ class NoteListState extends State<NoteList> {
       return Colors.yellow;
     }
 
-    void navigateToDetail(Note note, String title) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
+    void navigateToDetail(Note note, String title) async {
+      bool res = await Navigator.push(context, MaterialPageRoute(builder: (context) {
         return NoteDetail(note, title);
       }));
+
+      if (res) {
+        updateList();
+      }
     }
 
     void updateList() {

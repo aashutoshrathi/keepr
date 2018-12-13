@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:keepr/models/note.dart';
+import 'package:keepr/utils/db_helper.dart';
 
 class NoteDetail extends StatefulWidget {
 
@@ -15,7 +17,7 @@ class NoteDetail extends StatefulWidget {
 }
 
 class NoteDetailState extends State<NoteDetail> {
-  
+  DatabaseHelper dbHelper = DatabaseHelper();
   static var _priorities = ['High', 'Low'];
 
   String appBarTitle;
@@ -131,6 +133,7 @@ class NoteDetailState extends State<NoteDetail> {
                         onPressed: () {
                           setState(() {
                             debugPrint("Save button clicked");
+                            _save();
                           });
                         },
                       ),
@@ -149,6 +152,7 @@ class NoteDetailState extends State<NoteDetail> {
                         onPressed: () {
                           setState(() {
                             debugPrint("Delete button clicked");
+                            _delete();
                           });
                         },
                       ),
@@ -163,7 +167,7 @@ class NoteDetailState extends State<NoteDetail> {
     }
 
     void goBack() {
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
 
     void updatePriorityAsInt(String value) {
@@ -177,6 +181,54 @@ class NoteDetailState extends State<NoteDetail> {
 
     String priorityAsString(int value) {
       return _priorities[value-1];
+    }
+
+    // Save Function
+    void _save() async {
+      goBack();
+
+      note.date = DateFormat.yMMMd().format(DateTime.now());
+
+      int res;
+      if (note.id != null) { // Update
+        res = await dbHelper.updateNote(note);
+      } else {
+        res = await dbHelper.addNote(note);
+      }
+
+      if (res != 0) {
+        _showAlert('Status', 'Saved Successfully!');
+      } else {
+        _showAlert('Status', 'Failed to save :(');
+      }
+    }
+
+    void _delete() async {
+      goBack();
+
+      int res;
+      if (note.id == null) { // Update
+        _showAlert('Status', 'What you tryin to do?');
+      }
+
+      res = await dbHelper.deleteNote(note);
+
+      if (res != 0) {
+        _showAlert('Status', 'Delete Successfully!');
+      } else {
+        _showAlert('Status', 'Failed to delete :(');
+      }
+    }
+
+    void _showAlert(String title, String desc) {
+      AlertDialog alert = AlertDialog(
+        title: Text(title),
+        content: Text(desc),
+      );
+      showDialog(
+        context: context,
+        builder: (_) => alert
+      );
     }
 
 }
