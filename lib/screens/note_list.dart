@@ -59,9 +59,9 @@ class NoteListState extends State<NoteList> {
                 this.noteList[position].title,
                 style: titleStyle
               ),
-              subtitle: Text(this.noteList[position].description),
+              subtitle: Text(this.noteList[position].date),
               trailing: GestureDetector ( // Gesture Detector bhai baap hai.
-                child: Icon(Icons.delete_sweep, color: Colors.red),
+                child: Icon(Icons.delete_sweep, color: Colors.red, size: 37,),
                 onTap: () {
                   _delete(context, noteList[position]);
                 },
@@ -89,10 +89,12 @@ class NoteListState extends State<NoteList> {
     }
 
     Color getPriorityRang(int priority) {
-      if (priority == 1) {
-        return Colors.red;
+      switch(priority) {
+        case 1:
+          return Colors.red;
+        case 2:
+          return Colors.yellow;
       }
-      return Colors.yellow;
     }
 
     void navigateToDetail(Note note, String title) async {

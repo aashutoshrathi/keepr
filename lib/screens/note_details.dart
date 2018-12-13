@@ -122,11 +122,12 @@ class NoteDetailState extends State<NoteDetail> {
                 padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                 child: Row (
                   children: <Widget>[
+                    Container(width: 15.0),
                     Expanded(
                       child: OutlineButton(
-                        color: Theme.of(context).primaryColorDark,
-                        textColor: Colors.blue,
-                        borderSide: BorderSide(color: Colors.blue),
+                        color: Colors.lightGreenAccent,
+                        textColor: Colors.green,
+                        borderSide: BorderSide(color: Colors.green),
                         shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(20.0)
                         ),
@@ -143,13 +144,13 @@ class NoteDetailState extends State<NoteDetail> {
                       ),
                     ),
 
-                    Container(width: 5.0,),
+                    Container(width: 15.0,),
 
                     Expanded(
                       child: OutlineButton(
-                        color: Theme.of(context).primaryColorDark,
-                        textColor: Colors.blue,
-                        borderSide: BorderSide(color: Colors.blue),
+                        color: Colors.redAccent[100],
+                        textColor: Colors.red,
+                        borderSide: BorderSide(color: Colors.red),
                         shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(20.0)
                         ),
@@ -164,7 +165,8 @@ class NoteDetailState extends State<NoteDetail> {
                           });
                         },
                       ),
-                    )
+                    ),
+                    Container(width: 15.0,),
                   ],
                 ),
               )
@@ -188,15 +190,15 @@ class NoteDetailState extends State<NoteDetail> {
     }
 
     String priorityAsString(int value) {
+      // Till we don't have multiple
       return _priorities[value-1];
     }
 
     // Save Function
     void _save() async {
       goBack();
-
+      // Thanks to intl lib
       note.date = DateFormat.yMMMd().format(DateTime.now());
-
       int res;
       if (note.id != null) { // Update
         res = await dbHelper.updateNote(note);
@@ -232,6 +234,17 @@ class NoteDetailState extends State<NoteDetail> {
       AlertDialog alert = AlertDialog(
         title: Text(title),
         content: Text(desc),
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(20)
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('Okie'),
+            onPressed: () {
+              Navigator.pop(context);
+            }
+          )
+        ],
       );
       showDialog(
         context: context,
