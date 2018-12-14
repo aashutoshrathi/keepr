@@ -25,7 +25,7 @@ class NoteListState extends State<NoteList> {
 
       return Scaffold(
         appBar: AppBar(
-          title: Text('Keeper'),
+          title: Text('Keepr'),
         ),
         body: getNoteListView(),
 
