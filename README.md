@@ -18,7 +18,7 @@ A few resources to get you started if this is your first Flutter project:
 
 ## Demo
 
-![Demo GIF](demos/demo.gif)
+<img width="250" height="400" src="https://raw.githubusercontent.com/aashutoshrathi/keepr-flutter/master/demos/demo.gif?token=AUN5glh934WfKmYtVZumQbK9KuxDeS2mks5cHKbWwA%3D%3D" />
 
 ## Plugins Used
 
