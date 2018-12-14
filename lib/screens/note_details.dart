@@ -204,8 +204,8 @@ class NoteDetailState extends State<NoteDetail> {
 
     // Save Function
     void _save() async {
-      goBack();
       // Thanks to intl lib
+      goBack();
       note.date = DateFormat.yMMMd().format(DateTime.now());
       int res;
       if (note.id != null) { // Update
@@ -245,14 +245,14 @@ class NoteDetailState extends State<NoteDetail> {
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(20)
         ),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text('Okie'),
-            onPressed: () {
-              Navigator.pop(context);
-            }
-          )
-        ],
+        // actions: <Widget>[
+        //   FlatButton(
+        //     child: const Text('Okie'),
+        //     onPressed: () {
+        //       goBack();
+        //     }
+        //   )
+        // ],
       );
       showDialog(
         context: context,
