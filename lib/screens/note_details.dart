@@ -122,6 +122,7 @@ class NoteDetailState extends State<NoteDetail> {
                   ),
                 )
               ),
+              
               Padding (
                 padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                 child: Row (

@@ -2,6 +2,7 @@
 <h1 align="center">keepr</h1>
 
 <p align="center">
+<a href="https://travis-ci.com/aashutoshrathi/keepr-flutter"><img src="https://travis-ci.com/aashutoshrathi/keepr-flutter.svg?token=x5wHaKpXyy9apivkjrhr&branch=master" align="center"></a>
 </p>
 <hr>
 <p align="center">Yet another Note Keeper Application.</p>
